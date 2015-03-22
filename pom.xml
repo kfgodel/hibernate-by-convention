@@ -221,18 +221,15 @@
     </pluginRepositories>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>artifactory_10pines</id>
-            <name>libs-releases-local</name>
-            <url>http://services.10pines.com:8081/artifactory/libs-releases-local</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
         <repository>
-            <id>artifactory_10pines</id>
-            <name>libs-releases-local</name>
-            <url>http://services.10pines.com:8081/artifactory/libs-release-local</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>kfgodel_mosquito</id>
+            <name>Internal Releases</name>
+            <url>http://kfgodel.info:8081/nexus/content/repositories/releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>kfgodel_mosquito</id>
+            <name>Internal Snapshots</name>
+            <url>http://kfgodel.info:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
-
 </project>

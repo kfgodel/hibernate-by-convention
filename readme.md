@@ -1,3 +1,3 @@
 # Programmatic Hibernate
 
-Small test to verify how easy is to setup a maven project with hibernate as persistence engine, programmatically
+Project to abstract some of the unused hibernate details and offer a simplified programmatic interface to hibernate
