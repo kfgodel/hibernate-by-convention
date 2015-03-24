@@ -34,6 +34,7 @@
         <version.assertj>1.6.1</version.assertj>
         <version.mockito>1.9.5</version.mockito>
         <version.javaspec>2.0</version.javaspec>
+
         <version.hibernate>4.3.8.Final</version.hibernate>
         <version.reflections>0.9.9</version.reflections>
 
@@ -106,6 +107,13 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${version.hibernate}</version>
+            <exclusions>
+                <!-- Avoid conflict with reflections -->
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
