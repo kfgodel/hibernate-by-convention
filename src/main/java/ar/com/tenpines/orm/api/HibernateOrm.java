@@ -3,8 +3,8 @@ package ar.com.tenpines.orm.api;
 import java.util.function.Function;
 
 /**
- * This type represents an abstraction over hibernate as an ORM.<br>
- *     It hides unused hibernate features and exposes the ways the other features are used
+ * This type represents hibernate as an ORM layer over the database.<br>
+ *     It hides unused hibernate features and exposes the ones we use
  *
  * Created by kfgodel on 22/03/15.
  */
