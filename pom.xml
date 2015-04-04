@@ -127,7 +127,14 @@
             <artifactId>reflections</artifactId>
             <version>${version.reflections}</version>
         </dependency>
-     
+
+        <!-- Nary: Stream and optional -->
+        <dependency>
+            <groupId>ar.com.kfgodel</groupId>
+            <artifactId>nary</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

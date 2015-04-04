@@ -1,7 +1,10 @@
 package ar.com.tenpines.orm.impl.contexts;
 
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.TransactionContext;
+import ar.com.tenpines.orm.api.crud.Identifiable;
+import ar.com.tenpines.orm.api.exceptions.CrudException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -44,6 +47,21 @@ public class HibernateTransactionContext implements TransactionContext {
     @Override
     public void close() {
         sessionContext.close();
+    }
+
+    @Override
+    public Long save(Identifiable instance) throws CrudException {
+        return sessionContext.save(instance);
+    }
+
+    @Override
+    public void delete(Identifiable instance) {
+        sessionContext.delete(instance);
+    }
+
+    @Override
+    public <T> Nary<T> perform(Function<Session, Nary<T>> operation) {
+        return sessionContext.perform(operation);
     }
 
     public static HibernateTransactionContext create(SessionContext parentContext, Transaction boundTransaction) {
