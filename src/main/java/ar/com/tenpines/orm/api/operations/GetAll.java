@@ -2,7 +2,7 @@ package ar.com.tenpines.orm.api.operations;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
-import ar.com.tenpines.orm.api.crud.Identifiable;
+import ar.com.tenpines.orm.api.entities.Identifiable;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;

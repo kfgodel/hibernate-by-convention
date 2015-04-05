@@ -2,7 +2,7 @@ package ar.com.tenpines.orm.impl.crud;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.crud.CrudProvider;
-import ar.com.tenpines.orm.api.crud.Identifiable;
+import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
 import org.hibernate.Session;
 

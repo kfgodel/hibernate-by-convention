@@ -64,6 +64,7 @@ public class SmallAppPreConfig implements Preconfig {
         for (Class<?> persistentType : persistentTypes) {
             hibernateConfig.addAnnotatedClass(persistentType);
         }
+
         return hibernateConfig;
     }
 }

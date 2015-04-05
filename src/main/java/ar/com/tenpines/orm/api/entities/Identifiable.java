@@ -1,4 +1,4 @@
-package ar.com.tenpines.orm.api.crud;
+package ar.com.tenpines.orm.api.entities;
 
 /**
  * This type represents a persistent database object, that has an database ID to be identified

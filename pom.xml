@@ -38,6 +38,7 @@
         <version.hibernate>4.3.8.Final</version.hibernate>
         <version.reflections>0.9.9</version.reflections>
 
+        <version.joda-time>2.7</version.joda-time>
     </properties>
 
 
@@ -133,6 +134,13 @@
             <groupId>ar.com.kfgodel</groupId>
             <artifactId>nary</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <!-- Time representations -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${version.joda-time}</version>
         </dependency>
 
         <!-- Logging -->

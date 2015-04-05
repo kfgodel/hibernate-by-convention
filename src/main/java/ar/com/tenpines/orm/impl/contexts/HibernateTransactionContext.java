@@ -3,7 +3,7 @@ package ar.com.tenpines.orm.impl.contexts;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.TransactionContext;
-import ar.com.tenpines.orm.api.crud.Identifiable;
+import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
