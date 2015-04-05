@@ -22,6 +22,8 @@ import java.util.function.Function;
  */
 public class HibernateFacade implements HibernateOrm {
 
+    private static final ThreadLocal<HibernateSessionContext> currentSession = new ThreadLocal<>();
+
     private SessionFactory sessionFactory;
 
     public static HibernateFacade create(Preconfig appConfig) {
@@ -59,11 +61,21 @@ public class HibernateFacade implements HibernateOrm {
 
     @Override
     public <T> T doWithSession(Function<SessionContext, T> operation) {
-        HibernateSessionContext sessionContext = HibernateSessionContext.create(sessionFactory.openSession());
+        // Fetch the existing session in the thread
+        HibernateSessionContext existingSession = currentSession.get();
+        if(existingSession != null){
+            // There's one we can reuse. Other stack entry is responsible for managing it
+            return operation.apply(existingSession);
+        }
+
+        // We need to create and manage a new one
+        HibernateSessionContext newSession = HibernateSessionContext.create(sessionFactory.openSession());;
+        currentSession.set(newSession);
         try{
-            return operation.apply(sessionContext);
+            return operation.apply(existingSession);
         }finally {
-            sessionContext.close();
+            currentSession.remove();
+            newSession.close();
         }
     }
 

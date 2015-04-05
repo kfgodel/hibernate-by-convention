@@ -17,22 +17,33 @@ import java.util.function.Function;
  */
 public class HibernateSessionContext implements SessionContext {
 
+    private static final ThreadLocal<HibernateTransactionContext> currentTransaction = new ThreadLocal<>();
+
     private Session currentSession;
     private CrudProvider crudProvider;
 
     @Override
     public <T> T doInTransaction(Function<TransactionContext, T> operation) {
-        HibernateTransactionContext transactionContext = HibernateTransactionContext.create(this, getSession().beginTransaction());
+        HibernateTransactionContext existingTransaction = currentTransaction.get();
+        if(existingTransaction != null){
+            // There's one we can reuse. Other stack entry is responsible for managing it
+            return operation.apply(existingTransaction);
+        }
+
+        // We need to create and manage a new one
+        HibernateTransactionContext newTransaction = HibernateTransactionContext.create(this, getSession().beginTransaction());
+        currentTransaction.set(newTransaction);
         boolean finishedSuccessfully = false;
         try {
-            T result = operation.apply(transactionContext);
+            T result = operation.apply(newTransaction);
             finishedSuccessfully = true;
             return result;
         }finally {
+            currentTransaction.remove();
             if(finishedSuccessfully) {
-                transactionContext.commit();
+                newTransaction.commit();
             }else {
-                transactionContext.rollback();
+                newTransaction.rollback();
             }
         }
     }
