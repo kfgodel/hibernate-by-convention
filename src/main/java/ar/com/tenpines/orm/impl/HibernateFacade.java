@@ -72,7 +72,7 @@ public class HibernateFacade implements HibernateOrm {
         HibernateSessionContext newSession = HibernateSessionContext.create(sessionFactory.openSession());;
         currentSession.set(newSession);
         try{
-            return operation.apply(existingSession);
+            return operation.apply(newSession);
         }finally {
             currentSession.remove();
             newSession.close();
