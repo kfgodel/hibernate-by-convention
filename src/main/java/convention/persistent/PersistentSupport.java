@@ -37,11 +37,11 @@ public class PersistentSupport implements Persistable, Datable {
     private Long id;
     public static final String id_FIELD = "id";
 
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime momentoDeCreacion;
     public static final String momentoDeCreacion_FIELD = "momentoDeCreacion";
 
-    @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime momentoDeUltimaModificacion;
     public static final String momentoDeUltimaModificacion_FIELD = "momentoDeUltimaModificacion";
 
