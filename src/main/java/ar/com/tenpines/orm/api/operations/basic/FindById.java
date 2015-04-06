@@ -1,22 +1,21 @@
-package ar.com.tenpines.orm.api.operations;
+package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
 import org.hibernate.Session;
-
-import java.util.function.Function;
 
 /**
  * This type represents a get by id operation in the database
  * Created by kfgodel on 04/04/15.
  */
-public class FindById<T> implements Function<Session,Nary<T>> {
+public class FindById<T> implements CrudOperation<T> {
 
     private Class<T> persistentType;
     private Long expectedId;
 
     @Override
-    public Nary<T> apply(Session session) {
+    public Nary<T> applyUsing(Session session) {
         Object foundObject = session.get(persistentType, expectedId);
         return NaryFromNative.ofNullable((T) foundObject);
     }

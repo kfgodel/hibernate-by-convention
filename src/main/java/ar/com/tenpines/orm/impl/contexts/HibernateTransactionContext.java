@@ -5,10 +5,10 @@ import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.TransactionContext;
 import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
+import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.util.function.Function;
 
 /**
  * This type implements the transaction context with a reference to the current transaction
@@ -35,8 +35,9 @@ public class HibernateTransactionContext implements TransactionContext {
     }
 
     @Override
-    public <T> T doInTransaction(Function<TransactionContext, T> operation) {
-        return sessionContext.doInTransaction(operation);
+    public <R> R doUnderTransaction(TransactionOperation<R> operation) {
+        // We are already under the context of a transaction
+        return operation.applyUnder(this);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class HibernateTransactionContext implements TransactionContext {
     }
 
     @Override
-    public <T> Nary<T> perform(Function<Session, Nary<T>> operation) {
+    public <R> Nary<R> perform(CrudOperation<R> operation) {
         return sessionContext.perform(operation);
     }
 

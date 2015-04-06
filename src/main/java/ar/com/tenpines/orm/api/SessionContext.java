@@ -1,9 +1,8 @@
 package ar.com.tenpines.orm.api;
 
 import ar.com.tenpines.orm.api.crud.CrudProvider;
+import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import org.hibernate.Session;
-
-import java.util.function.Function;
 
 /**
  * This type represents a context reification for an hibernate session.<br>
@@ -16,10 +15,10 @@ public interface SessionContext extends CrudProvider{
      * Executes an operation under a transaction, committing the transaction if the operation finishes successfully.<br>
      *     rollbacking if the operation fails with an un-controlled exception
      * @param operation The operation to execute
-     * @param <T> The type of expected result
+     * @param <R> The type of expected result
      * @return The result of the operation
      */
-    <T> T doInTransaction(Function<TransactionContext, T> operation);
+    <R> R doUnderTransaction(TransactionOperation<R> operation);
 
     /**
      * @return The current session

@@ -3,9 +3,7 @@ package ar.com.tenpines.orm.api.crud;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
-import org.hibernate.Session;
-
-import java.util.function.Function;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
 
 /**
  * This type represents a database CRUD provider to create, read, update, and delete operations.<br>
@@ -33,9 +31,9 @@ public interface CrudProvider {
     /**
      * Executes the given function as a persistence operation, returning the results of the function
      * @param operation The operation to execute
-     * @param <T> The expected type of results
+     * @param <R> The expected type of results
      * @return A nary of possible results (from 0, 1, or N)
      */
-    <T> Nary<T> perform(Function<Session, Nary<T>> operation);
+    <R> Nary<R> perform(CrudOperation<R> operation);
 
 }

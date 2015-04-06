@@ -4,9 +4,8 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.crud.CrudProvider;
 import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
 import org.hibernate.Session;
-
-import java.util.function.Function;
 
 /**
  * This type is ths implementation of a crud provider using hibernate
@@ -29,8 +28,8 @@ public class CrudProviderImpl implements CrudProvider {
     }
 
     @Override
-    public <T> Nary<T> perform(Function<Session, Nary<T>> operation) {
-        return operation.apply(currentSession);
+    public <R> Nary<R> perform(CrudOperation<R> operation) {
+        return operation.applyUsing(currentSession);
     }
 
     public static CrudProviderImpl create(Session session) {

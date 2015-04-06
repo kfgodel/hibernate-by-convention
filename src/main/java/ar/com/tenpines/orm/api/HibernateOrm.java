@@ -1,6 +1,7 @@
 package ar.com.tenpines.orm.api;
 
-import java.util.function.Function;
+import ar.com.tenpines.orm.api.operations.SessionOperation;
+import ar.com.tenpines.orm.api.operations.TransactionOperation;
 
 /**
  * This type represents hibernate as an ORM layer over the database.<br>
@@ -14,10 +15,10 @@ public interface HibernateOrm {
      * Executes an operation that needs a hibernate session to be resolved.<br>
      *     Returns any result the operation generates
      * @param operation The operation to do with a session
-     * @param <T> The type of expected result
+     * @param <R> The type of expected result
      * @return The result from the operation
      */
-    <T> T doWithSession(Function<SessionContext, T> operation);
+    <R> R doWithSession(SessionOperation<R> operation);
 
     /**
      * Executes an operation under a transaction, commiting the transaction if the operation finishes successfully.<br>
@@ -26,10 +27,10 @@ public interface HibernateOrm {
      * <br>
      *     This is a shorthand version for one-transaction-one-session operations
      * @param operation The operation to execute
-     * @param <T> The type of expected result
+     * @param <R> The type of expected result
      * @return The result of the operation
      */
-    <T> T doInTransaction(Function<TransactionContext, T> operation);
+    <R> R doUnderTransaction(TransactionOperation<R> operation);
 
     /**
      * Closes this ORM connections and frees all the resources

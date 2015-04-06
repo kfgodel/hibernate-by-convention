@@ -2,8 +2,8 @@ package ar.com.tenpines.orm.impl;
 
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.Preconfig;
-import ar.com.tenpines.orm.api.SessionContext;
-import ar.com.tenpines.orm.api.TransactionContext;
+import ar.com.tenpines.orm.api.operations.SessionOperation;
+import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import ar.com.tenpines.orm.impl.contexts.HibernateSessionContext;
 import com.tenpines.integration.hibernate.events.TimeStamperEventListener;
 import org.hibernate.SessionFactory;
@@ -13,8 +13,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.EventType;
 import org.hibernate.internal.SessionFactoryImpl;
-
-import java.util.function.Function;
 
 /**
  * This class implements an ORM layer using hibernate
@@ -60,19 +58,19 @@ public class HibernateFacade implements HibernateOrm {
 
 
     @Override
-    public <T> T doWithSession(Function<SessionContext, T> operation) {
+    public <R> R doWithSession(SessionOperation<R> operation) {
         // Fetch the existing session in the thread
         HibernateSessionContext existingSession = currentSession.get();
         if(existingSession != null){
             // There's one we can reuse. Other stack entry is responsible for managing it
-            return operation.apply(existingSession);
+            return operation.applyWith(existingSession);
         }
 
         // We need to create and manage a new one
         HibernateSessionContext newSession = HibernateSessionContext.create(sessionFactory.openSession());;
         currentSession.set(newSession);
         try{
-            return operation.apply(newSession);
+            return operation.applyWith(newSession);
         }finally {
             currentSession.remove();
             newSession.close();
@@ -80,8 +78,8 @@ public class HibernateFacade implements HibernateOrm {
     }
 
     @Override
-    public <T> T doInTransaction(Function<TransactionContext, T> operation) {
-        return this.doWithSession((sessionContext)-> sessionContext.doInTransaction(operation));
+    public <R> R doUnderTransaction(TransactionOperation<R> operation) {
+        return this.doWithSession((sessionContext)-> sessionContext.doUnderTransaction(operation));
     }
 
     @Override

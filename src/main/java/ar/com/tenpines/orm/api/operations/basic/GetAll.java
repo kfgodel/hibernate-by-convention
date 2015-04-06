@@ -1,4 +1,4 @@
-package ar.com.tenpines.orm.api.operations;
+package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;

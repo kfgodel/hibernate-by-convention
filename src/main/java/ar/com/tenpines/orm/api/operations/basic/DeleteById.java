@@ -1,7 +1,8 @@
-package ar.com.tenpines.orm.api.operations;
+package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -13,14 +14,14 @@ import java.util.function.Function;
  * This type represents the operation to delete an object in the database using its id
  * Created by kfgodel on 04/04/15.
  */
-public class DeleteById implements Function<Session, Nary<Void>> {
+public class DeleteById implements CrudOperation<Void> {
     public static Logger LOG = LoggerFactory.getLogger(DeleteById.class);
 
     private Class<Object> persistentType;
     private Long deletedId;
 
     @Override
-    public Nary<Void> apply(Session session) {
+    public Nary<Void> applyUsing(Session session) {
         // It seems the only efficient way to delete by id (without loading the object) is using
         // a HQL query
         String deleteHql = "DELETE FROM " + persistentType.getName() + " WHERE id = :deletedId";

@@ -2,14 +2,13 @@ package ar.com.tenpines.orm.impl.contexts;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.SessionContext;
-import ar.com.tenpines.orm.api.TransactionContext;
 import ar.com.tenpines.orm.api.crud.CrudProvider;
 import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
+import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import ar.com.tenpines.orm.impl.crud.CrudProviderImpl;
 import org.hibernate.Session;
-
-import java.util.function.Function;
 
 /**
  * This type implements the session context by holding a reference to the current session
@@ -23,11 +22,11 @@ public class HibernateSessionContext implements SessionContext {
     private CrudProvider crudProvider;
 
     @Override
-    public <T> T doInTransaction(Function<TransactionContext, T> operation) {
+    public <R> R doUnderTransaction(TransactionOperation<R> operation) {
         HibernateTransactionContext existingTransaction = currentTransaction.get();
         if(existingTransaction != null){
             // There's one we can reuse. Other stack entry is responsible for managing it
-            return operation.apply(existingTransaction);
+            return operation.applyUnder(existingTransaction);
         }
 
         // We need to create and manage a new one
@@ -35,7 +34,7 @@ public class HibernateSessionContext implements SessionContext {
         currentTransaction.set(newTransaction);
         boolean finishedSuccessfully = false;
         try {
-            T result = operation.apply(newTransaction);
+            R result = operation.applyUnder(newTransaction);
             finishedSuccessfully = true;
             return result;
         }finally {
@@ -76,7 +75,7 @@ public class HibernateSessionContext implements SessionContext {
     }
 
     @Override
-    public <T> Nary<T> perform(Function<Session, Nary<T>> operation) {
+    public <R> Nary<R> perform(CrudOperation<R> operation) {
         return getCrudProvider().perform(operation);
     }
 
