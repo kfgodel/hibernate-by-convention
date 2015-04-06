@@ -2,7 +2,7 @@ package ar.com.tenpines.orm.impl.crud;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.crud.CrudProvider;
-import ar.com.tenpines.orm.api.entities.Identifiable;
+import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
 import ar.com.tenpines.orm.api.operations.CrudOperation;
 import org.hibernate.Session;
@@ -17,13 +17,13 @@ public class CrudProviderImpl implements CrudProvider {
     private Session currentSession;
 
     @Override
-    public Long save(Identifiable instance) throws CrudException {
+    public Long save(Persistable instance) throws CrudException {
         currentSession.saveOrUpdate(instance);
         return instance.getId();
     }
 
     @Override
-    public void delete(Identifiable instance) {
+    public void delete(Persistable instance) {
         currentSession.delete(instance);
     }
 

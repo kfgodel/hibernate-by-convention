@@ -3,7 +3,7 @@ package ar.com.tenpines.orm.impl.contexts;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.crud.CrudProvider;
-import ar.com.tenpines.orm.api.entities.Identifiable;
+import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
 import ar.com.tenpines.orm.api.operations.CrudOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
@@ -65,12 +65,12 @@ public class HibernateSessionContext implements SessionContext {
     }
 
     @Override
-    public Long save(Identifiable instance) throws CrudException {
+    public Long save(Persistable instance) throws CrudException {
         return getCrudProvider().save(instance);
     }
 
     @Override
-    public void delete(Identifiable instance) {
+    public void delete(Persistable instance) {
         getCrudProvider().delete(instance);
     }
 
