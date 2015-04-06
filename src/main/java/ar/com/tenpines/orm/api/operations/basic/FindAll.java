@@ -3,6 +3,7 @@ package ar.com.tenpines.orm.api.operations.basic;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.entities.Identifiable;
+import ar.com.tenpines.orm.api.entities.Persistable;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -15,7 +16,7 @@ import java.util.function.Function;
  *     It orders the results by id (lacking a better way to order them)
  * Created by kfgodel on 04/04/15.
  */
-public class GetAll<T extends Identifiable> implements Function<Session, Nary<T>> {
+public class FindAll<T extends Identifiable> implements Function<Session, Nary<T>> {
 
     private Class<T> persistentType;
 
@@ -27,8 +28,8 @@ public class GetAll<T extends Identifiable> implements Function<Session, Nary<T>
         return NaryFromNative.create(list.stream());
     }
 
-    public static<T extends Identifiable> GetAll<T> of(Class<T> persistentType) {
-        GetAll<T> allOf = new GetAll<>();
+    public static<T extends Persistable> FindAll<T> of(Class<T> persistentType) {
+        FindAll<T> allOf = new FindAll<>();
         allOf.persistentType = persistentType;
         return allOf;
     }

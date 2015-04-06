@@ -1,7 +1,7 @@
 package ar.com.tenpines.orm.api.crud;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.tenpines.orm.api.entities.Identifiable;
+import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
 import ar.com.tenpines.orm.api.operations.CrudOperation;
 
@@ -20,13 +20,13 @@ public interface CrudProvider {
      * @param instance The instance to save or update
      * @return The instance ID (new if it didn't have one)
      */
-    Long save(Identifiable instance) throws CrudException;
+    Long save(Persistable instance) throws CrudException;
 
     /**
      * Deletes a persistent instance from the database according to its ORM mappings.<br>
      * @param instance The instance to delete
      */
-    void delete(Identifiable instance);
+    void delete(Persistable instance);
 
     /**
      * Executes the given function as a persistence operation, returning the results of the function

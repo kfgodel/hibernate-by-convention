@@ -2,6 +2,7 @@ package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.operations.CrudOperation;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 public class DeleteById implements CrudOperation<Void> {
     public static Logger LOG = LoggerFactory.getLogger(DeleteById.class);
 
-    private Class<Object> persistentType;
+    private Class<? extends Persistable> persistentType;
     private Long deletedId;
 
     @Override
@@ -35,9 +36,9 @@ public class DeleteById implements CrudOperation<Void> {
         return NaryFromNative.empty();
     }
 
-    public static DeleteById create(Class<?> persistentType, Long deletedId) {
+    public static DeleteById create(Class<? extends Persistable> persistentType, Long deletedId) {
         DeleteById deleteById = new DeleteById();
-        deleteById.persistentType = (Class<Object>) persistentType;
+        deleteById.persistentType = persistentType;
         deleteById.deletedId = deletedId;
         return deleteById;
     }

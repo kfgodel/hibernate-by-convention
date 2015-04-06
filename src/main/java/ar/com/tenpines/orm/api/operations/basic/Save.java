@@ -1,7 +1,7 @@
 package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.tenpines.orm.api.TransactionContext;
-import ar.com.tenpines.orm.api.entities.Identifiable;
+import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 
 /**
@@ -10,16 +10,17 @@ import ar.com.tenpines.orm.api.operations.TransactionOperation;
  * Created by kfgodel on 05/04/15.
  */
 public class Save implements TransactionOperation<Long> {
-    private Identifiable instanceToSave;
+
+    private Persistable instanceToSave;
 
     @Override
     public Long applyUnder(TransactionContext transactionContext) {
         return transactionContext.save(instanceToSave);
     }
 
-    public static Save create(Identifiable instanceTosave) {
+    public static Save create(Persistable instanceToSave) {
         Save save = new Save();
-        save.instanceToSave = instanceTosave;
+        save.instanceToSave = instanceToSave;
         return save;
     }
 
