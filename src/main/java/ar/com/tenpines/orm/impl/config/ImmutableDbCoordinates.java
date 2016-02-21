@@ -7,7 +7,7 @@ import org.hibernate.dialect.Dialect;
  * This type represents the basic DB information hibernate needs to connect to a database
  * Created by kfgodel on 21/03/15.
  */
-public class ImmutableCoordinates implements DbCoordinates {
+public class ImmutableDbCoordinates implements DbCoordinates {
 
     private Class<? extends Dialect> dbDialect;
     private String dbUrl;
@@ -30,8 +30,8 @@ public class ImmutableCoordinates implements DbCoordinates {
         return dbPassword;
     }
 
-    public static ImmutableCoordinates create(Class<? extends Dialect> dialect, String url, String user, String password) {
-        ImmutableCoordinates settings = new ImmutableCoordinates();
+    public static ImmutableDbCoordinates create(Class<? extends Dialect> dialect, String url, String user, String password) {
+        ImmutableDbCoordinates settings = new ImmutableDbCoordinates();
         settings.dbDialect = dialect;
         settings.dbUrl = url;
         settings.dbUsername = user;

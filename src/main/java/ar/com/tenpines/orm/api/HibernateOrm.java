@@ -5,7 +5,7 @@ import ar.com.tenpines.orm.api.operations.TransactionOperation;
 
 /**
  * This type represents hibernate as an ORM layer over the database.<br>
- *     It hides unused hibernate features and exposes the ones we use
+ *     It hides unused hibernate features and exposes the ones we need
  *
  * Created by kfgodel on 22/03/15.
  */
