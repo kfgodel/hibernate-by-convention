@@ -2,8 +2,6 @@ package ar.com.tenpines.orm.impl.properties.types;
 
 import ar.com.tenpines.orm.impl.properties.PropertySupport;
 
-import java.util.Properties;
-
 /**
  * This type represents a property whose type is numerical
  * Created by kfgodel on 21/03/15.
@@ -15,8 +13,13 @@ public class IntegerProperty extends PropertySupport<Integer> {
     }
 
     @Override
-    public void setIn(Properties properties, Integer value) {
-        this.setValueIn(properties, value.toString());
+    protected String representAsString(Integer value) {
+        return value.toString();
+    }
+
+    @Override
+    protected Integer recoverValueFrom(String stringRepresentation) {
+        return Integer.valueOf(stringRepresentation);
     }
 
     public static IntegerProperty create(String propertyName) {

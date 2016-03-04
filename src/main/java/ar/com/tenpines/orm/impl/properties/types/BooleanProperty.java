@@ -2,8 +2,6 @@ package ar.com.tenpines.orm.impl.properties.types;
 
 import ar.com.tenpines.orm.impl.properties.PropertySupport;
 
-import java.util.Properties;
-
 /**
  * This type type represents an hibernate property whose value it's a boolean value
  *
@@ -16,8 +14,13 @@ public class BooleanProperty extends PropertySupport<Boolean> {
     }
 
     @Override
-    public void setIn(Properties properties, Boolean value) {
-        this.setValueIn(properties, value.toString());
+    protected String representAsString(Boolean value) {
+        return value.toString();
+    }
+
+    @Override
+    protected Boolean recoverValueFrom(String stringRepresentation) {
+        return Boolean.valueOf(stringRepresentation);
     }
 
     public static BooleanProperty create(String propertyName) {

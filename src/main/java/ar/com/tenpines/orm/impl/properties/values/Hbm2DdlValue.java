@@ -1,5 +1,10 @@
 package ar.com.tenpines.orm.impl.properties.values;
 
+import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.kfgodel.optionals.Optional;
+
+import java.util.Arrays;
+
 /**
  * This type represents the different possible values for hbm2ddl hibernate property.<br>
  *     http://blog.eyallupu.com/2007/05/hibernates-hbm2ddl-tool.html
@@ -31,5 +36,16 @@ public enum Hbm2DdlValue {
 
     public String getValueName() {
         return valueName;
+    }
+
+  /**
+   * Searches the value by the given name,returningan optional that may contain it
+   * @param valueName The name that matches the value
+   * @return An empty optional if none match
+   */
+    public static Optional<Hbm2DdlValue> valueByName(String valueName) {
+        return NaryFromNative.create(Arrays.stream(values())
+          .filter((value) -> value.getValueName().equals(valueName))
+          .findFirst());
     }
 }

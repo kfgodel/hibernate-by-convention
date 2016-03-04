@@ -3,7 +3,7 @@ package ar.com.tenpines.orm.impl.properties.types;
 import ar.com.tenpines.orm.impl.properties.PropertySupport;
 import ar.com.tenpines.orm.impl.properties.values.TimeValue;
 
-import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This type represents a hibernate property expressed in seconds
@@ -15,11 +15,17 @@ public class SecondProperty extends PropertySupport<TimeValue> {
     }
 
     @Override
-    public void setIn(Properties properties, TimeValue value) {
+    protected String representAsString(TimeValue value) {
         long seconds = value.getUnit().toSeconds(value.getAmount());
-        this.setValueIn(properties, String.valueOf(seconds));
+        String stringRepresentation = String.valueOf(seconds);
+        return stringRepresentation;
     }
 
+    @Override
+    protected TimeValue recoverValueFrom(String stringRepresentation) {
+        Long valueInseconds = Long.valueOf(stringRepresentation);
+        return TimeValue.create(valueInseconds, TimeUnit.SECONDS);
+    }
 
     public static SecondProperty create(String propertyName) {
         SecondProperty secondProperty = new SecondProperty(propertyName);

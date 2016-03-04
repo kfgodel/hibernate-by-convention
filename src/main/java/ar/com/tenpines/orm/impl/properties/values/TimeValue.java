@@ -8,30 +8,62 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimeValue {
 
-    private long amount;
-    private TimeUnit unit;
+  private long amount;
+  private TimeUnit unit;
 
-    public long getAmount() {
-        return amount;
+  public long getAmount() {
+    return amount;
+  }
+
+  public void setAmount(long amount) {
+    this.amount = amount;
+  }
+
+  public TimeUnit getUnit() {
+    return unit;
+  }
+
+  public void setUnit(TimeUnit unit) {
+    this.unit = unit;
+  }
+
+  public static TimeValue create(long amount, TimeUnit unit) {
+    TimeValue timeValue = new TimeValue();
+    timeValue.amount = amount;
+    timeValue.unit = unit;
+    return timeValue;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(getClass().getSimpleName());
+    builder.append("{");
+    builder.append(amount);
+    builder.append(" ");
+    builder.append(unit);
+    builder.append("}");
+    return builder.toString();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    public void setAmount(long amount) {
-        this.amount = amount;
+    if (!TimeValue.class.isInstance(obj)) {
+      return false;
     }
+    TimeValue that = (TimeValue) obj;
+    return this.toNanoSeconds() == that.toNanoSeconds();
+  }
 
-    public TimeUnit getUnit() {
-        return unit;
-    }
+  @Override
+  public int hashCode() {
+    return (int) toNanoSeconds();
+  }
 
-    public void setUnit(TimeUnit unit) {
-        this.unit = unit;
-    }
-
-    public static TimeValue create(long amount, TimeUnit unit) {
-        TimeValue timeValue = new TimeValue();
-        timeValue.amount = amount;
-        timeValue.unit = unit;
-        return timeValue;
-    }
-
+  private long toNanoSeconds() {
+    return unit.toNanos(amount);
+  }
 }

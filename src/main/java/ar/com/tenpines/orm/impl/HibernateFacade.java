@@ -1,7 +1,7 @@
 package ar.com.tenpines.orm.impl;
 
 import ar.com.tenpines.orm.api.HibernateOrm;
-import ar.com.tenpines.orm.api.Preconfig;
+import ar.com.tenpines.orm.api.HibernateConfigurator;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import ar.com.tenpines.orm.impl.contexts.HibernateSessionContext;
@@ -24,15 +24,15 @@ public class HibernateFacade implements HibernateOrm {
 
     private SessionFactory sessionFactory;
 
-    public static HibernateFacade create(Preconfig appConfig) {
+    public static HibernateFacade create(HibernateConfigurator configurator) {
         HibernateFacade hibernateOrm = new HibernateFacade();
-        hibernateOrm.initialize(appConfig);
+        hibernateOrm.initialize(configurator);
         return hibernateOrm;
 
     }
 
-    private void initialize(Preconfig appConfig) {
-        Configuration hibernateConfig = appConfig.createHibernateConfig();
+    private void initialize(HibernateConfigurator configurator) {
+        Configuration hibernateConfig = configurator.createConfiguration();
 
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(hibernateConfig.getProperties())
