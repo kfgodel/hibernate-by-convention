@@ -1,9 +1,11 @@
 package ar.com.tenpines.orm.impl;
 
-import ar.com.tenpines.orm.api.HibernateOrm;
+import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateConfigurator;
+import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
+import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
 import ar.com.tenpines.orm.impl.contexts.HibernateSessionContext;
 import com.tenpines.integration.hibernate.events.TimeStamperEventListener;
 import org.hibernate.SessionFactory;
@@ -20,70 +22,82 @@ import org.hibernate.internal.SessionFactoryImpl;
  */
 public class HibernateFacade implements HibernateOrm {
 
-    private static final ThreadLocal<HibernateSessionContext> currentSession = new ThreadLocal<>();
+  private static final ThreadLocal<HibernateSessionContext> currentSession = new ThreadLocal<>();
 
-    private SessionFactory sessionFactory;
+  private SessionFactory sessionFactory;
 
-    public static HibernateFacade create(HibernateConfigurator configurator) {
-        HibernateFacade hibernateOrm = new HibernateFacade();
-        hibernateOrm.initialize(configurator);
-        return hibernateOrm;
+  public static HibernateFacade create(HibernateConfigurator configurator) {
+    HibernateFacade hibernateOrm = new HibernateFacade();
+    hibernateOrm.initialize(configurator);
+    return hibernateOrm;
+  }
 
+  /**
+   * Creates a new hibernate facada using conventions for the configuration
+   * @param dbCoordinates The database coordinates to open connections
+   * @return The created facade
+   */
+  public static HibernateOrm createWithConventionsFor(DbCoordinates dbCoordinates) {
+    HibernateConfigurator configurator = ByConventionConfigurator.create(dbCoordinates);
+    return create(configurator);
+  }
+
+
+  private void initialize(HibernateConfigurator configurator) {
+    Configuration hibernateConfig = configurator.createConfiguration();
+
+    StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+      .applySettings(hibernateConfig.getProperties())
+      .build();
+
+    this.sessionFactory = hibernateConfig.buildSessionFactory(serviceRegistry);
+
+    registerTimestamper();
+  }
+
+  /**
+   * Adds the timestamper event listener to set creation and update dates to entities
+   */
+  private void registerTimestamper() {
+    // Hack to register our event listeners. There's no easy way to do it programmatically
+    // The other approach is to user a META-INF integrator file
+    TimeStamperEventListener timeStamper = TimeStamperEventListener.create();
+    EventListenerRegistry registry = ((SessionFactoryImpl) sessionFactory).getServiceRegistry()
+      .getService(EventListenerRegistry.class);
+    registry.appendListeners(EventType.PRE_INSERT, timeStamper);
+    registry.appendListeners(EventType.PRE_UPDATE, timeStamper);
+  }
+
+
+  @Override
+  public <R> R doWithSession(SessionOperation<R> operation) {
+    // Fetch the existing session in the thread
+    HibernateSessionContext existingSession = currentSession.get();
+    if (existingSession != null) {
+      // There's one we can reuse. Other stack entry is responsible for managing it
+      return operation.applyWith(existingSession);
     }
 
-    private void initialize(HibernateConfigurator configurator) {
-        Configuration hibernateConfig = configurator.createConfiguration();
-
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(hibernateConfig.getProperties())
-                .build();
-
-        this.sessionFactory = hibernateConfig.buildSessionFactory(serviceRegistry);
-
-        registerTimestamper();
+    // We need to create and manage a new one
+    HibernateSessionContext newSession = HibernateSessionContext.create(sessionFactory.openSession());
+    ;
+    currentSession.set(newSession);
+    try {
+      return operation.applyWith(newSession);
+    } finally {
+      currentSession.remove();
+      newSession.close();
     }
+  }
 
-    /**
-     * Adds the timestamper event listener to set creation and update dates to entities
-     */
-    private void registerTimestamper() {
-        // Hack to register our event listeners. There's no easy way to do it programmatically
-        // The other approach is to user a META-INF integrator file
-        TimeStamperEventListener timeStamper = TimeStamperEventListener.create();
-        EventListenerRegistry registry = ((SessionFactoryImpl) sessionFactory).getServiceRegistry()
-                .getService(EventListenerRegistry.class);
-        registry.appendListeners(EventType.PRE_INSERT, timeStamper);
-        registry.appendListeners(EventType.PRE_UPDATE, timeStamper);
-    }
+  @Override
+  public <R> R doUnderTransaction(TransactionOperation<R> operation) {
+    return this.doWithSession((sessionContext) -> sessionContext.doUnderTransaction(operation));
+  }
 
+  @Override
+  public void close() {
+    this.sessionFactory.close();
+  }
 
-    @Override
-    public <R> R doWithSession(SessionOperation<R> operation) {
-        // Fetch the existing session in the thread
-        HibernateSessionContext existingSession = currentSession.get();
-        if(existingSession != null){
-            // There's one we can reuse. Other stack entry is responsible for managing it
-            return operation.applyWith(existingSession);
-        }
-
-        // We need to create and manage a new one
-        HibernateSessionContext newSession = HibernateSessionContext.create(sessionFactory.openSession());;
-        currentSession.set(newSession);
-        try{
-            return operation.applyWith(newSession);
-        }finally {
-            currentSession.remove();
-            newSession.close();
-        }
-    }
-
-    @Override
-    public <R> R doUnderTransaction(TransactionOperation<R> operation) {
-        return this.doWithSession((sessionContext)-> sessionContext.doUnderTransaction(operation));
-    }
-
-    @Override
-    public void close() {
-        this.sessionFactory.close();
-    }
 }
