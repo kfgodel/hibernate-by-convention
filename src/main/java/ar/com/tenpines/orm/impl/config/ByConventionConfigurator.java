@@ -1,5 +1,6 @@
 package ar.com.tenpines.orm.impl.config;
 
+import ar.com.kfgodel.convention.api.Convention;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.DbCoordinates;
@@ -35,7 +36,7 @@ public class ByConventionConfigurator implements HibernateConfigurator {
   public static ByConventionConfigurator create(DbCoordinates dbCoordinates) {
     ByConventionConfigurator configurator = new ByConventionConfigurator();
     configurator.coordinates = dbCoordinates;
-    configurator.persistentPackageNames = Lists.newArrayList("convention.persistent");
+    configurator.persistentPackageNames = Lists.newArrayList(Convention.create().getPersistentPackageName());
     return configurator;
   }
 
