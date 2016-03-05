@@ -3,17 +3,20 @@ package ar.com.tenpines.orm.api.operations;
 import ar.com.tenpines.orm.api.SessionContext;
 
 /**
- * This type represents an operation done with an hibernate session context.<br>
- *     It represents a unit of work in the context of a persistent session (access to persistent objects)
- *
+ * This type represents an operation that needs an hibernate session context to be executed.<br>
+ * It represents a unit of work in the context of a persistent session (access to persistent objects).<br>
+ * <br>
+ * A session operation can involve multiple transaction operations, and its only guarantee is that it will
+ * have a hibernate session available.
  * Created by kfgodel on 05/04/15.
  */
 public interface SessionOperation<R> {
 
-    /**
-     * Executes this operation with the given context, returning the result
-     * @param sessionContext The context from wich to fetch persistent objects
-     * @return The operation result
-     */
-    R applyWith(SessionContext sessionContext);
+  /**
+   * Executes this operation with the given session context where a session is available
+   *
+   * @param sessionContext The context from which to fetch persistent objects
+   * @return The operation result
+   */
+  R applyWithSessionOn(SessionContext sessionContext);
 }

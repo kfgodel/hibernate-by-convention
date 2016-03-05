@@ -5,6 +5,7 @@ import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.TransactionContext;
 import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.exceptions.CrudException;
+import ar.com.tenpines.orm.api.exceptions.OrmException;
 import ar.com.tenpines.orm.api.operations.CrudOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import org.hibernate.Session;
@@ -16,60 +17,100 @@ import org.hibernate.Transaction;
  */
 public class HibernateTransactionContext implements TransactionContext {
 
-    private SessionContext sessionContext;
-    private Transaction currentTransaction;
+  private SessionContext sessionContext;
+  private Transaction currentTransaction;
+  private boolean alreadyCommited;
+  private boolean alreadyRollbacked;
 
-    @Override
-    public Transaction getTransaction() {
-        return currentTransaction;
-    }
+  @Override
+  public Transaction getTransaction() {
+    return currentTransaction;
+  }
 
-    @Override
-    public void commit() {
-        getTransaction().commit();
+  @Override
+  public void commit() {
+    if (alreadyCommited) {
+      throw new OrmException("The transaction was already commited. It can't be committed again");
     }
+    getTransaction().commit();
+    alreadyCommited = true;
+  }
 
-    @Override
-    public void rollback() {
-        getTransaction().rollback();
+  @Override
+  public void rollback() {
+    if (alreadyRollbacked) {
+      throw new OrmException("The transaction was already rollbacked. It can't be rollbacked again");
     }
+    getTransaction().rollback();
+    alreadyRollbacked = true;
+  }
 
-    @Override
-    public <R> R doUnderTransaction(TransactionOperation<R> operation) {
-        // We are already under the context of a transaction
-        return operation.applyUnder(this);
+  @Override
+  public <R> R doUnderTransaction(TransactionOperation<R> operation) {
+    if(transactionIsAlreadyClosed()){
+      throw new OrmException("The transaction has been already committed or rollbacked. It cannot execute other operation");
     }
+    boolean operationFailed = true;
+    try {
+      R result = operation.applyWithTransactionOn(this);
+      operationFailed = false;
+      return result;
+    } finally {
+      if (operationFailed) {
+        this.rollback();
+      }
+    }
+  }
 
-    @Override
-    public Session getSession() {
-        return sessionContext.getSession();
-    }
+  @Override
+  public Session getSession() {
+    return sessionContext.getSession();
+  }
 
-    @Override
-    public void close() {
-        sessionContext.close();
+  @Override
+  public void close() {
+    if (needsToBeCommited()) {
+      this.commit();
     }
+  }
 
-    @Override
-    public Long save(Persistable instance) throws CrudException {
-        return sessionContext.save(instance);
-    }
+  /**
+   * Indicates if this transaction context needs to commit before closing
+   *
+   * @return false if the transaction was already committed or rollbacked
+   */
+  private boolean needsToBeCommited() {
+    return !transactionIsAlreadyClosed();
+  }
 
-    @Override
-    public void delete(Persistable instance) {
-        sessionContext.delete(instance);
-    }
+  /**
+   * Indicates if this transaction has been closed and cannot accept new operations
+   * @return true if it has been committed or rollbacked
+   */
+  private boolean transactionIsAlreadyClosed() {
+    return alreadyCommited || alreadyRollbacked;
+  }
 
-    @Override
-    public <R> Nary<R> perform(CrudOperation<R> operation) {
-        return sessionContext.perform(operation);
-    }
+  @Override
+  public Long save(Persistable instance) throws CrudException {
+    return sessionContext.save(instance);
+  }
 
-    public static HibernateTransactionContext create(SessionContext parentContext, Transaction boundTransaction) {
-        HibernateTransactionContext context = new HibernateTransactionContext();
-        context.sessionContext = parentContext;
-        context.currentTransaction = boundTransaction;
-        return context;
-    }
+  @Override
+  public void delete(Persistable instance) {
+    sessionContext.delete(instance);
+  }
+
+  @Override
+  public <R> Nary<R> perform(CrudOperation<R> operation) {
+    return sessionContext.perform(operation);
+  }
+
+  public static HibernateTransactionContext create(SessionContext parentContext, Transaction boundTransaction) {
+    HibernateTransactionContext context = new HibernateTransactionContext();
+    context.sessionContext = parentContext;
+    context.currentTransaction = boundTransaction;
+    return context;
+  }
 
 }

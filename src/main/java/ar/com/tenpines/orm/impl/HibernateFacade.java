@@ -3,10 +3,13 @@ package ar.com.tenpines.orm.impl;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateConfigurator;
 import ar.com.tenpines.orm.api.HibernateOrm;
+import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
+import ar.com.tenpines.orm.impl.contexts.SessionContextualizer;
 import ar.com.tenpines.orm.impl.contexts.HibernateSessionContext;
+import ar.com.tenpines.orm.impl.contexts.ThreadLocalContextualizer;
 import com.tenpines.integration.hibernate.events.TimeStamperEventListener;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -22,9 +25,9 @@ import org.hibernate.internal.SessionFactoryImpl;
  */
 public class HibernateFacade implements HibernateOrm {
 
-  private static final ThreadLocal<HibernateSessionContext> currentSession = new ThreadLocal<>();
-
+  private static final ThreadLocal<SessionContext> sessionContextPerThread = new ThreadLocal<>();
   private SessionFactory sessionFactory;
+  private SessionContextualizer<SessionContext> sessionContextualizer;
 
   public static HibernateFacade create(HibernateConfigurator configurator) {
     HibernateFacade hibernateOrm = new HibernateFacade();
@@ -51,8 +54,11 @@ public class HibernateFacade implements HibernateOrm {
       .build();
 
     this.sessionFactory = hibernateConfig.buildSessionFactory(serviceRegistry);
-
     registerTimestamper();
+
+    this.sessionContextualizer = ThreadLocalContextualizer.create(()->
+      HibernateSessionContext.create(this.sessionFactory.openSession())
+    , sessionContextPerThread);
   }
 
   /**
@@ -70,29 +76,14 @@ public class HibernateFacade implements HibernateOrm {
 
 
   @Override
-  public <R> R doWithSession(SessionOperation<R> operation) {
-    // Fetch the existing session in the thread
-    HibernateSessionContext existingSession = currentSession.get();
-    if (existingSession != null) {
-      // There's one we can reuse. Other stack entry is responsible for managing it
-      return operation.applyWith(existingSession);
-    }
-
-    // We need to create and manage a new one
-    HibernateSessionContext newSession = HibernateSessionContext.create(sessionFactory.openSession());
-    ;
-    currentSession.set(newSession);
-    try {
-      return operation.applyWith(newSession);
-    } finally {
-      currentSession.remove();
-      newSession.close();
-    }
+  public <R> R ensureSessionFor(SessionOperation<R> operation) {
+    return this.sessionContextualizer.ensureContextFor(operation::applyWithSessionOn);
   }
 
   @Override
-  public <R> R doUnderTransaction(TransactionOperation<R> operation) {
-    return this.doWithSession((sessionContext) -> sessionContext.doUnderTransaction(operation));
+  public <R> R ensureTransactionFor(TransactionOperation<R> operation) {
+    // The transaction operation is a session, so no need to do anything fancy here
+    return this.ensureSessionFor(operation);
   }
 
   @Override

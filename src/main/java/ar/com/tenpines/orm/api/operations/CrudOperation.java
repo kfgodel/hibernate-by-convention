@@ -28,7 +28,7 @@ public interface CrudOperation<R> extends SessionOperation<Nary<R>>, Transaction
      * @return The result of this operation
      */
     @Override
-    default Nary<R> applyUnder(TransactionContext transactionContext){
+    default Nary<R> applyWithTransactionOn(TransactionContext transactionContext){
         return transactionContext.perform(this);
     }
 
@@ -38,7 +38,7 @@ public interface CrudOperation<R> extends SessionOperation<Nary<R>>, Transaction
      * @return The result of this operation
      */
     @Override
-    default Nary<R> applyWith(SessionContext sessionContext){
+    default Nary<R> applyWithSessionOn(SessionContext sessionContext){
         return sessionContext.perform(this);
     };
 }
