@@ -1,14 +1,8 @@
 package ar.com.tenpines.orm.impl.contexts;
 
-import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.TransactionContext;
-import ar.com.tenpines.orm.api.crud.CrudProvider;
-import ar.com.tenpines.orm.api.entities.Persistable;
-import ar.com.tenpines.orm.api.exceptions.CrudException;
-import ar.com.tenpines.orm.api.operations.CrudOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
-import ar.com.tenpines.orm.impl.crud.CrudProviderImpl;
 import org.hibernate.Session;
 
 /**
@@ -20,7 +14,6 @@ public class HibernateSessionContext implements SessionContext {
   private static final ThreadLocal<TransactionContext> transactionContextPerThread = new ThreadLocal<>();
 
   private Session currentSession;
-  private CrudProvider crudProvider;
   private SessionContextualizer<TransactionContext> transactionContextualizer;
 
   @Override
@@ -38,28 +31,6 @@ public class HibernateSessionContext implements SessionContext {
   @Override
   public void close() {
     getSession().close();
-  }
-
-  public CrudProvider getCrudProvider() {
-    if (crudProvider == null) {
-      crudProvider = CrudProviderImpl.create(getSession());
-    }
-    return crudProvider;
-  }
-
-  @Override
-  public Long save(Persistable instance) throws CrudException {
-    return getCrudProvider().save(instance);
-  }
-
-  @Override
-  public void delete(Persistable instance) {
-    getCrudProvider().delete(instance);
-  }
-
-  @Override
-  public <R> Nary<R> perform(CrudOperation<R> operation) {
-    return getCrudProvider().perform(operation);
   }
 
   public static HibernateSessionContext create(Session boundSession) {

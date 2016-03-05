@@ -1,4 +1,4 @@
-package ar.com.tenpines.orm.api;
+package ar.com.tenpines.orm.api.config;
 
 import org.hibernate.cfg.Configuration;
 

@@ -1,6 +1,6 @@
 package ar.com.tenpines.orm.impl.config;
 
-import ar.com.tenpines.orm.api.DbCoordinates;
+import ar.com.tenpines.orm.api.config.DbCoordinates;
 import org.hibernate.dialect.Dialect;
 
 /**

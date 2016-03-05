@@ -1,6 +1,5 @@
 package ar.com.tenpines.orm.api;
 
-import ar.com.tenpines.orm.api.crud.CrudProvider;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import ar.com.tenpines.orm.impl.contexts.Closeable;
 import org.hibernate.Session;
@@ -11,7 +10,7 @@ import org.hibernate.Session;
  *     Instances of this type are used to access session bound operations. It also offers basic crud operations
  * Created by kfgodel on 22/03/15.
  */
-public interface SessionContext extends CrudProvider, Closeable{
+public interface SessionContext extends Closeable{
 
     /**
      * Executes an operation under a transaction, committing the transaction if the operation finishes successfully.<br>

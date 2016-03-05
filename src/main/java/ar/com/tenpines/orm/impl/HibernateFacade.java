@@ -1,14 +1,14 @@
 package ar.com.tenpines.orm.impl;
 
-import ar.com.tenpines.orm.api.DbCoordinates;
-import ar.com.tenpines.orm.api.HibernateConfigurator;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.SessionContext;
+import ar.com.tenpines.orm.api.config.DbCoordinates;
+import ar.com.tenpines.orm.api.config.HibernateConfigurator;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
-import ar.com.tenpines.orm.impl.contexts.SessionContextualizer;
 import ar.com.tenpines.orm.impl.contexts.HibernateSessionContext;
+import ar.com.tenpines.orm.impl.contexts.SessionContextualizer;
 import ar.com.tenpines.orm.impl.contexts.ThreadLocalContextualizer;
 import com.tenpines.integration.hibernate.events.TimeStamperEventListener;
 import org.hibernate.SessionFactory;

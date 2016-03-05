@@ -1,12 +1,8 @@
 package ar.com.tenpines.orm.impl.contexts;
 
-import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.TransactionContext;
-import ar.com.tenpines.orm.api.entities.Persistable;
-import ar.com.tenpines.orm.api.exceptions.CrudException;
 import ar.com.tenpines.orm.api.exceptions.OrmException;
-import ar.com.tenpines.orm.api.operations.CrudOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -89,21 +85,6 @@ public class HibernateTransactionContext implements TransactionContext {
    */
   private boolean transactionIsAlreadyClosed() {
     return alreadyCommited || alreadyRollbacked;
-  }
-
-  @Override
-  public Long save(Persistable instance) throws CrudException {
-    return sessionContext.save(instance);
-  }
-
-  @Override
-  public void delete(Persistable instance) {
-    sessionContext.delete(instance);
-  }
-
-  @Override
-  public <R> Nary<R> perform(CrudOperation<R> operation) {
-    return sessionContext.perform(operation);
   }
 
   public static HibernateTransactionContext create(SessionContext parentContext, Transaction boundTransaction) {
