@@ -2,7 +2,6 @@ package ar.com.tenpines.orm.impl.config;
 
 import ar.com.kfgodel.convention.api.Convention;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.config.DbCoordinates;
 import ar.com.tenpines.orm.api.config.HibernateConfigurator;
 import ar.com.tenpines.orm.impl.properties.HibernateProperty;
@@ -98,7 +97,7 @@ public class ByConventionConfigurator implements HibernateConfigurator {
   }
 
   public Nary<String> getPersistentPackageNames() {
-    return NaryFromNative.create(persistentPackageNames.stream());
+    return Nary.create(persistentPackageNames.stream());
   }
 
   public void changePersistentPackages(String... packages) {

@@ -1,7 +1,6 @@
 package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
@@ -40,6 +39,6 @@ public class DeleteById implements SessionOperation<Nary<Void>> {
             LOG.debug("Deletion of {}[{}] did not affect just 1 row: {}", persistentType, deletedId, affectedRows);
         }
         // No result expected from this operation
-        return NaryFromNative.empty();
+        return Nary.empty();
     }
 }

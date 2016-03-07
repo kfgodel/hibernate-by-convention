@@ -1,7 +1,6 @@
 package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.entities.Identifiable;
 import ar.com.tenpines.orm.api.entities.Persistable;
@@ -33,6 +32,6 @@ public class FindAll<T extends Identifiable> implements SessionOperation<Nary<T>
         Criteria criteria = session.createCriteria(persistentType);
         criteria.addOrder(Order.asc("id"));
         List<T> list = criteria.list();
-        return NaryFromNative.create(list.stream());
+        return Nary.create(list);
     }
 }

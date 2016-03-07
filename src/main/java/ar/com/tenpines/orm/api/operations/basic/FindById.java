@@ -1,7 +1,6 @@
 package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
@@ -27,6 +26,6 @@ public class FindById<T extends Persistable> implements SessionOperation<Nary<T>
     public Nary<T> applyWithSessionOn(SessionContext sessionContext) {
         Session session = sessionContext.getSession();
         T foundObject = (T) session.get(persistentType, expectedId);
-        return NaryFromNative.ofNullable(foundObject);
+        return Nary.ofNullable(foundObject);
     }
 }

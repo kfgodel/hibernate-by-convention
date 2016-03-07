@@ -1,6 +1,6 @@
 package ar.com.tenpines.orm.impl.properties;
 
-import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.optionals.Optional;
 
 import java.util.Properties;
@@ -39,7 +39,7 @@ public abstract class PropertySupport<T> implements HibernateProperty<T> {
    */
   public Optional<String> getValueFrom(Properties properties) {
     String propertyValue = properties.getProperty(this.getPropertyName());
-    return NaryFromNative.ofNullable(propertyValue);
+    return Nary.ofNullable(propertyValue);
   }
 
   @Override

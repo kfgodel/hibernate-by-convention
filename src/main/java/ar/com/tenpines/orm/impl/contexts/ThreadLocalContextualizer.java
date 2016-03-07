@@ -1,6 +1,6 @@
 package ar.com.tenpines.orm.impl.contexts;
 
-import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.optionals.Optional;
 
 import java.util.function.Function;
@@ -73,6 +73,6 @@ public class ThreadLocalContextualizer<C extends Closeable> implements SessionCo
    */
   private Optional<C> getExistingContext() {
     C existingContext = (C) currentThreadContext.get();
-    return NaryFromNative.ofNullable(existingContext);
+    return Nary.ofNullable(existingContext);
   }
 }

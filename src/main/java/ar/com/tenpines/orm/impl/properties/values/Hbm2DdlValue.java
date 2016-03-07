@@ -1,6 +1,6 @@
 package ar.com.tenpines.orm.impl.properties.values;
 
-import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.optionals.Optional;
 
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public enum Hbm2DdlValue {
    * @return An empty optional if none match
    */
     public static Optional<Hbm2DdlValue> valueByName(String valueName) {
-        return NaryFromNative.create(Arrays.stream(values())
+        return Nary.create(Arrays.stream(values())
           .filter((value) -> value.getValueName().equals(valueName))
           .findFirst());
     }

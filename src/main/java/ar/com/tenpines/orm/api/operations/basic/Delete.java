@@ -1,7 +1,6 @@
 package ar.com.tenpines.orm.api.operations.basic;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.entities.Persistable;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
@@ -25,6 +24,6 @@ public class Delete implements SessionOperation<Nary<Void>> {
     public Nary<Void> applyWithSessionOn(SessionContext sessionContext) {
         Session session = sessionContext.getSession();
         session.delete(instance);
-        return NaryFromNative.empty();
+        return Nary.empty();
     }
 }
