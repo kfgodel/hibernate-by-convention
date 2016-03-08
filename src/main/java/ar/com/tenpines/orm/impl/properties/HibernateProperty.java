@@ -1,6 +1,6 @@
 package ar.com.tenpines.orm.impl.properties;
 
-import ar.com.kfgodel.optionals.Optional;
+import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.tenpines.orm.impl.properties.types.*;
 import ar.com.tenpines.orm.impl.properties.values.Hbm2DdlValue;
 import ar.com.tenpines.orm.impl.properties.values.TimeValue;

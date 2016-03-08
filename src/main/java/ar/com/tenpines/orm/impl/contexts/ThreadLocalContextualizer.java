@@ -1,7 +1,7 @@
 package ar.com.tenpines.orm.impl.contexts;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.optionals.Optional;
+import ar.com.kfgodel.nary.api.optionals.Optional;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
