@@ -1,8 +1,8 @@
 package ar.com.tenpines.orm.api.operations.basic;
 
-import ar.com.tenpines.orm.api.SessionContext;
+import ar.com.tenpines.orm.api.TransactionContext;
 import ar.com.tenpines.orm.api.entities.Persistable;
-import ar.com.tenpines.orm.api.operations.SessionOperation;
+import ar.com.tenpines.orm.api.operations.TransactionOperation;
 import org.hibernate.Session;
 
 /**
@@ -10,20 +10,20 @@ import org.hibernate.Session;
  *
  * Created by kfgodel on 05/04/15.
  */
-public class Save implements SessionOperation<Long> {
+public class Save<T extends Persistable> implements TransactionOperation<T> {
 
-    private Persistable instanceToSave;
+    private T instanceToSave;
 
-    public static Save create(Persistable instanceToSave) {
-        Save save = new Save();
+    public static <T extends Persistable> Save<T> create(T instanceToSave) {
+        Save<T> save = new Save<>();
         save.instanceToSave = instanceToSave;
         return save;
     }
 
     @Override
-    public Long applyWithSessionOn(SessionContext sessionContext) {
-        Session session = sessionContext.getSession();
+    public T applyWithTransactionOn(TransactionContext transactionContext) {
+        Session session = transactionContext.getSession();
         session.saveOrUpdate(instanceToSave);
-        return instanceToSave.getId();
+        return instanceToSave;
     }
 }
