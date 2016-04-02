@@ -2,7 +2,7 @@ package ar.com.kfgodel.orm;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.tenpines.orm.impl.config.HibernateDialectDeducer;
+import ar.com.kfgodel.orm.impl.config.HibernateDialectDeducer;
 import org.hibernate.dialect.*;
 import org.junit.runner.RunWith;
 

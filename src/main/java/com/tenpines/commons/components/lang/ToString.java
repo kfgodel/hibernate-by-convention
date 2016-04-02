@@ -12,7 +12,7 @@
  */
 package com.tenpines.commons.components.lang;
 
-import ar.com.tenpines.orm.api.entities.Persistable;
+import ar.com.kfgodel.orm.api.entities.Persistable;
 
 import java.util.IdentityHashMap;
 import java.util.Iterator;

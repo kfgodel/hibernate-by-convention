@@ -12,8 +12,8 @@
  */
 package convention.persistent;
 
-import ar.com.tenpines.orm.api.entities.Datable;
-import ar.com.tenpines.orm.api.entities.Persistable;
+import ar.com.kfgodel.orm.api.entities.Datable;
+import ar.com.kfgodel.orm.api.entities.Persistable;
 import com.tenpines.commons.components.lang.ToString;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -62,7 +62,7 @@ public class PersistableSupport implements Persistable, Datable {
     }
 
     /**
-     * @see ar.com.tenpines.orm.api.entities.Persistable#getId()
+     * @see Persistable#getId()
      */
     @Override
     public Long getId() {
@@ -139,7 +139,7 @@ public class PersistableSupport implements Persistable, Datable {
     }
 
     /**
-     * @see ar.com.tenpines.orm.api.entities.Datable#getMomentoDeCreacion()
+     * @see Datable#getMomentoDeCreacion()
      */
     @Override
     public DateTime getMomentoDeCreacion() {
@@ -147,7 +147,7 @@ public class PersistableSupport implements Persistable, Datable {
     }
 
     /**
-     * @see ar.com.tenpines.orm.api.entities.Datable#setMomentoDeCreacion(org.joda.time.DateTime)
+     * @see Datable#setMomentoDeCreacion(org.joda.time.DateTime)
      */
     @Override
     public void setMomentoDeCreacion(final DateTime momentoDeCreacion) {
@@ -155,7 +155,7 @@ public class PersistableSupport implements Persistable, Datable {
     }
 
     /**
-     * @see ar.com.tenpines.orm.api.entities.Datable#getMomentoDeUltimaModificacion()
+     * @see Datable#getMomentoDeUltimaModificacion()
      */
     @Override
     public DateTime getMomentoDeUltimaModificacion() {
@@ -163,7 +163,7 @@ public class PersistableSupport implements Persistable, Datable {
     }
 
     /**
-     * @see ar.com.tenpines.orm.api.entities.Datable#setMomentoDeUltimaModificacion(org.joda.time.DateTime)
+     * @see Datable#setMomentoDeUltimaModificacion(org.joda.time.DateTime)
      */
     @Override
     public void setMomentoDeUltimaModificacion(final DateTime momentoDeUltimaActualizacion) {

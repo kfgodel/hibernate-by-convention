@@ -1,9 +1,9 @@
 package ar.com.kfgodel.orm;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
-import ar.com.tenpines.orm.api.config.DbCoordinates;
-import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
-import ar.com.tenpines.orm.impl.config.DialectDeducer;
+import ar.com.kfgodel.orm.api.config.DbCoordinates;
+import ar.com.kfgodel.orm.impl.config.ByConventionConfigurator;
+import ar.com.kfgodel.orm.impl.config.DialectDeducer;
 
 import java.util.Properties;
 import java.util.function.Supplier;

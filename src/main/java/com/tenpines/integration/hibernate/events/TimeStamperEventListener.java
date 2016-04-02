@@ -3,7 +3,7 @@
  */
 package com.tenpines.integration.hibernate.events;
 
-import ar.com.tenpines.orm.api.entities.Datable;
+import ar.com.kfgodel.orm.api.entities.Datable;
 import org.hibernate.event.spi.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;

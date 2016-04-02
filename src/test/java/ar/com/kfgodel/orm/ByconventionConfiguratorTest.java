@@ -2,12 +2,12 @@ package ar.com.kfgodel.orm;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.kfgodel.orm.impl.config.ByConventionConfigurator;
+import ar.com.kfgodel.orm.impl.config.ImmutableDbCoordinates;
+import ar.com.kfgodel.orm.impl.properties.HibernateProperty;
+import ar.com.kfgodel.orm.impl.properties.values.Hbm2DdlValue;
+import ar.com.kfgodel.orm.impl.properties.values.TimeValue;
 import ar.com.kfgodel.orm.testentities.PersistentTestExample;
-import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
-import ar.com.tenpines.orm.impl.config.ImmutableDbCoordinates;
-import ar.com.tenpines.orm.impl.properties.HibernateProperty;
-import ar.com.tenpines.orm.impl.properties.values.Hbm2DdlValue;
-import ar.com.tenpines.orm.impl.properties.values.TimeValue;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.H2Dialect;
 import org.junit.runner.RunWith;
