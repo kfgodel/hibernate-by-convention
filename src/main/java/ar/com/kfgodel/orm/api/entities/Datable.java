@@ -3,7 +3,7 @@
  */
 package ar.com.kfgodel.orm.api.entities;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /**
  * Esta interfaz es aplicable a las entidades que tienen fecha de creación y de ultima modificación
@@ -17,7 +17,7 @@ public interface Datable {
    *
    * @param momento El momento de creación nuevo
    */
-  void setMomentoDeCreacion(DateTime momento);
+  void setMomentoDeCreacion(LocalDateTime momento);
 
   /**
    * Devuelve el momento que se toma de referencia como creación de esta instancia
@@ -25,7 +25,7 @@ public interface Datable {
    * @return El momento que se registro en la creación de la instancia (normalmente al insertarlo
    * en la base)
    */
-  DateTime getMomentoDeCreacion();
+  LocalDateTime getMomentoDeCreacion();
 
   /**
    * Nombre del atributo referenciable por reflection brindado por getMomentoDeCreacion()
@@ -38,14 +38,14 @@ public interface Datable {
    *
    * @param momento El momento que se tomará como ultima modificación
    */
-  void setMomentoDeUltimaModificacion(DateTime momento);
+  void setMomentoDeUltimaModificacion(LocalDateTime momento);
 
   /**
    * Devuelve el momento en el cual se modifico esta instancia por ultima vez
    *
    * @return (el momento que se le registro al hacer un update)
    */
-  DateTime getMomentoDeUltimaModificacion();
+  LocalDateTime getMomentoDeUltimaModificacion();
 
   /**
    * Nombre del atributo referenciable por reflection brindado por getMomentoDeUltimaModificacion()

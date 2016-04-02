@@ -5,10 +5,10 @@ package com.tenpines.integration.hibernate.events;
 
 import ar.com.kfgodel.orm.api.entities.Datable;
 import org.hibernate.event.spi.*;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -51,7 +51,7 @@ public class TimeStamperEventListener implements PreInsertEventListener, PreUpda
      */
     private void actualizarFechaDeModificacion(final Datable fechable, final PreUpdateEvent event) {
         // Modificamos la fecha normalmente
-        final DateTime momentoDeActualizacion = new DateTime();
+        final LocalDateTime momentoDeActualizacion = LocalDateTime.now();
         fechable.setMomentoDeUltimaModificacion(momentoDeActualizacion);
 
         // Modificamos el estado que usa hibernate para persistir
@@ -82,10 +82,10 @@ public class TimeStamperEventListener implements PreInsertEventListener, PreUpda
      * @param event
      */
     private void actualizarFechaDeCreacion(final Datable fechable, final PreInsertEvent event) {
-        DateTime momentoDeCreacion = fechable.getMomentoDeCreacion();
+        LocalDateTime momentoDeCreacion = fechable.getMomentoDeCreacion();
         // Verificamos si por alguna razon ya tiene definida una fecha
         if (momentoDeCreacion == null) {
-            momentoDeCreacion = new DateTime();
+            momentoDeCreacion = LocalDateTime.now();
             fechable.setMomentoDeCreacion(momentoDeCreacion);
         }
 

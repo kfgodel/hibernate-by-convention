@@ -15,12 +15,11 @@ package convention.persistent;
 import ar.com.kfgodel.orm.api.entities.Datable;
 import ar.com.kfgodel.orm.api.entities.Persistable;
 import com.tenpines.commons.components.lang.ToString;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Superclase para las entidades persistentes que implementa su ID con un Long.<br>
@@ -36,11 +35,9 @@ public class PersistableSupport implements Persistable, Datable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime momentoDeCreacion;
+    private LocalDateTime momentoDeCreacion;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime momentoDeUltimaModificacion;
+    private LocalDateTime momentoDeUltimaModificacion;
 
     /**
      * Este campo permite detectar modificaciones concurrentes sobre las entidades en forma
@@ -142,15 +139,15 @@ public class PersistableSupport implements Persistable, Datable {
      * @see Datable#getMomentoDeCreacion()
      */
     @Override
-    public DateTime getMomentoDeCreacion() {
+    public LocalDateTime getMomentoDeCreacion() {
         return momentoDeCreacion;
     }
 
     /**
-     * @see Datable#setMomentoDeCreacion(org.joda.time.DateTime)
+     * @see Datable#setMomentoDeCreacion(LocalDateTime)
      */
     @Override
-    public void setMomentoDeCreacion(final DateTime momentoDeCreacion) {
+    public void setMomentoDeCreacion(final LocalDateTime momentoDeCreacion) {
         this.momentoDeCreacion = momentoDeCreacion;
     }
 
@@ -158,15 +155,15 @@ public class PersistableSupport implements Persistable, Datable {
      * @see Datable#getMomentoDeUltimaModificacion()
      */
     @Override
-    public DateTime getMomentoDeUltimaModificacion() {
+    public LocalDateTime getMomentoDeUltimaModificacion() {
         return momentoDeUltimaModificacion;
     }
 
     /**
-     * @see Datable#setMomentoDeUltimaModificacion(org.joda.time.DateTime)
+     * @see Datable#setMomentoDeCreacion(LocalDateTime)
      */
     @Override
-    public void setMomentoDeUltimaModificacion(final DateTime momentoDeUltimaActualizacion) {
+    public void setMomentoDeUltimaModificacion(final LocalDateTime momentoDeUltimaActualizacion) {
         this.momentoDeUltimaModificacion = momentoDeUltimaActualizacion;
     }
 
