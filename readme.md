@@ -1,3 +1,3 @@
-# Programmatic Hibernate
+# Hibernate By Convention
 
-Project to abstract some of the unused hibernate details and offer a simplified programmatic interface to hibernate
+Project that tries to simplify hibernate usage by using certain conventions and offering a programatic access to it
