@@ -10,17 +10,16 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>ar.com.tenpines</groupId>
-    <artifactId>ateam-hibernate</artifactId>
+    <artifactId>hibernate-by-convention</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Ateam Hibernate</name>
-    <description>Programmatic facade to simplify hibernate usage</description>
+    <name>Hibernate By Convention</name>
+    <description>Project that tries to simplify hibernate usages by following certain conventions</description>
 
     <scm>
-        <connection>scm:git:ssh://github.com/10Pines/ateam-hibernate.git</connection>
-        <developerConnection>scm:git:ssh://github.com/10Pines/ateam-hibernate.git</developerConnection>
-        <url>https://github.com/10Pines/ateam-hibernate</url>
+        <connection>scm:git:ssh://github.com/10Pines/hibernate-by-convention.git</connection>
+        <developerConnection>scm:git:ssh://github.com/10Pines/hibernate-by-convention.git</developerConnection>
+        <url>https://github.com/10Pines/hibernate-by-convention</url>
     </scm>
 
     <repositories>
