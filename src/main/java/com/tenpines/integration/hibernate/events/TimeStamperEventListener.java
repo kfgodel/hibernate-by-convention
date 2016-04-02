@@ -4,7 +4,6 @@
 package com.tenpines.integration.hibernate.events;
 
 import ar.com.tenpines.orm.api.entities.Datable;
-import convention.persistent.PersistentSupport;
 import org.hibernate.event.spi.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -57,7 +56,7 @@ public class TimeStamperEventListener implements PreInsertEventListener, PreUpda
 
         // Modificamos el estado que usa hibernate para persistir
         final Object[] state = event.getState();
-        setValue(state, PersistentSupport.momentoDeUltimaModificacion_FIELD, momentoDeActualizacion, event);
+        setValue(state, Datable.momentoDeUltimaModificacion_FIELD, momentoDeActualizacion, event);
     }
 
     /**
@@ -95,8 +94,8 @@ public class TimeStamperEventListener implements PreInsertEventListener, PreUpda
 
         // La seteamos en el estado que usa hibernate para persistir
         final Object[] state = event.getState();
-        setValue(state, PersistentSupport.momentoDeCreacion_FIELD, momentoDeCreacion, event);
-        setValue(state, PersistentSupport.momentoDeUltimaModificacion_FIELD, momentoDeCreacion, event);
+        setValue(state, Datable.momentoDeCreacion_FIELD, momentoDeCreacion, event);
+        setValue(state, Datable.momentoDeUltimaModificacion_FIELD, momentoDeCreacion, event);
     }
 
     /**

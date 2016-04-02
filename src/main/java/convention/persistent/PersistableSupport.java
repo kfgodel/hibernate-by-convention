@@ -29,21 +29,18 @@ import javax.persistence.*;
  * @author D. García
  */
 @MappedSuperclass
-public class PersistentSupport implements Persistable, Datable {
-    private static final Logger LOG = LoggerFactory.getLogger(PersistentSupport.class);
+public class PersistableSupport implements Persistable, Datable {
+    private static final Logger LOG = LoggerFactory.getLogger(PersistableSupport.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    public static final String id_FIELD = "id";
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime momentoDeCreacion;
-    public static final String momentoDeCreacion_FIELD = "momentoDeCreacion";
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime momentoDeUltimaModificacion;
-    public static final String momentoDeUltimaModificacion_FIELD = "momentoDeUltimaModificacion";
 
     /**
      * Este campo permite detectar modificaciones concurrentes sobre las entidades en forma

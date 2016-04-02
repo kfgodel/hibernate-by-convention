@@ -13,6 +13,12 @@ public interface Identifiable {
     Long getId();
 
     /**
+     * Nombre del atributo disponible por getId() referenciable por código reflexivo
+     */
+    String id_FIELD = "id";
+
+
+    /**
      * Sets the id of this object in the databse
      * @param id The given identification
      */
