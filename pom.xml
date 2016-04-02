@@ -31,36 +31,20 @@
     </repositories>
 
     <properties>
-        <version.plugin.querydsl>1.1.3</version.plugin.querydsl>
-
         <version.hibernate>4.3.8.Final</version.hibernate>
         <version.reflections>0.9.9</version.reflections>
         <version.joda-time>2.7</version.joda-time>
-        <version.querydsl>3.6.2</version.querydsl>
         <version.joda-time-hibernate>1.3</version.joda-time-hibernate>
-
     </properties>
 
 
     <build>
         <plugins>
 
-            <!-- Generates Queryable types for querydsl -->
+            <!-- Generates Queryable types for querydsl (inherited) -->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
-                <version>${version.plugin.querydsl}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/generated-sources/java</outputDirectory>
-                            <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
@@ -87,17 +71,14 @@
             <version>${version.hibernate}</version>
         </dependency>
 
-        <!-- programmatic dsl for queries -->
+        <!-- programmatic dsl for queries (inherited) -->
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
+            <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
-            <version>${version.querydsl}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
+            <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
-            <version>${version.querydsl}</version>
         </dependency>
 
         <!-- Discover persistent classes dynamically -->
