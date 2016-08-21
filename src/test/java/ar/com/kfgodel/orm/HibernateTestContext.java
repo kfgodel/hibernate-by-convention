@@ -1,6 +1,6 @@
 package ar.com.kfgodel.orm;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.kfgodel.orm.api.config.DbCoordinates;
 import ar.com.kfgodel.orm.impl.config.ByConventionConfigurator;
 import ar.com.kfgodel.orm.impl.config.DialectDeducer;
