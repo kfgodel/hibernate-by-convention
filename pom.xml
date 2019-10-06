@@ -15,11 +15,12 @@
 
   <name>Hibernate By Convention</name>
   <description>Project that tries to simplify hibernate usages by following certain conventions</description>
+  <url>https://github.com/10Pines/hibernate-by-convention</url>
 
   <scm>
-    <connection>scm:git:ssh://github.com/10Pines/hibernate-by-convention.git</connection>
     <developerConnection>scm:git:ssh://github.com/10Pines/hibernate-by-convention.git</developerConnection>
-    <url>https://github.com/10Pines/hibernate-by-convention</url>
+    <connection>${project.scm.developerConnection}</connection>
+    <url>${project.url}</url>
   </scm>
 
   <repositories>
@@ -31,6 +32,9 @@
   </repositories>
 
   <properties>
+    <!-- Sonar properties to prevent unintentional id changes (Reference: https://docs.sonarqube.org/latest/analysis/analysis-parameters/) -->
+    <sonar.projectKey>ar.com.kfgodel:hibernate-by-convention</sonar.projectKey>
+
     <version.hibernate>5.1.0.Final</version.hibernate>
     <version.reflections>0.9.9</version.reflections>
     <version.byconvention>0.1-SNAPSHOT</version.byconvention>
