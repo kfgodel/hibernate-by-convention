@@ -35,7 +35,7 @@
     <!-- Sonar properties to prevent unintentional id changes (Reference: https://docs.sonarqube.org/latest/analysis/analysis-parameters/) -->
     <sonar.projectKey>ar.com.kfgodel:hibernate-by-convention</sonar.projectKey>
 
-    <version.hibernate>5.1.0.Final</version.hibernate>
+    <version.hibernate>5.3.20.Final</version.hibernate>
     <version.reflections>0.9.9</version.reflections>
     <version.byconvention>0.1-SNAPSHOT</version.byconvention>
   </properties>
